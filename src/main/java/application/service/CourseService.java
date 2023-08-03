@@ -8,6 +8,8 @@ import application.repository.CourseRepository;
 import application.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +53,16 @@ public class CourseService {
     @Transactional
     public  void deleteStudentCourseById(int studentCourseId) {
         courseRepository.deleteStudentCourseById(studentCourseId);
+    }
+    public List<Course> getUnassignedCoursesFromSameDept(int instructorId) {
+        return courseRepository.getUnassignedCoursesFromSameDept(instructorId);
+    }
+    @Transactional
+    public void removeByInstructorIdAndCourseId(int instructorId, int courseId) {
+        courseRepository.removeByInstructorIdAndCourseId(instructorId, courseId);
+    }
+    @Transactional
+    public void assignCourseToInstructor(int courseId, int instructorId) {
+        courseRepository.assignCourseToInstructor(courseId, instructorId);
     }
 }

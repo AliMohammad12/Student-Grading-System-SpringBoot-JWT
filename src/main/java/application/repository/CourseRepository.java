@@ -41,7 +41,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
             "WHERE i.id = :instructorId AND ic.course.id = :courseId")
     List<Object[]> findStudentsAndMarksWithInstructorCourseIdByInstructorIdAndCourseId(@Param("instructorId") int instructorId,
                                                                                        @Param("courseId") int courseId);
-
     @Modifying
     @Query("UPDATE StudentCourse sc SET sc.grade = :grade WHERE sc.id = :studentCourseId")
     void updateStudentCourseGradeById(int studentCourseId, @Param("grade") String grade);
@@ -49,11 +48,16 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Query("DELETE FROM StudentCourse sc WHERE sc.id = :studentCourseId")
     void deleteStudentCourseById(@Param("studentCourseId") int studentCourseId);
 
-//    @Query("SELECT c AS course, i AS instructor " +
-//            "FROM Course c " +
-//            "JOIN c.instructors i " +
-//            "JOIN i.department d " +
-//            "LEFT JOIN c.students s " +
-//            "WHERE s.id IS NULL OR s.id <> :studentId")
-//    Map<Course, List<Instructor>> getCoursesNotEnrolledByStudent(@Param("studentId") int studentId);
+    @Query("SELECT c FROM Course c " +
+            "WHERE c.department = (SELECT i.department FROM Instructor i WHERE i.id = :instructorId) " +
+            "AND c NOT IN (SELECT ic.course FROM InstructorCourse ic WHERE ic.instructor.id = :instructorId)")
+    List<Course> getUnassignedCoursesFromSameDept(@Param("instructorId") int instructorId);
+
+    @Modifying
+    @Query("DELETE FROM InstructorCourse ic WHERE ic.instructor.id = :instructorId AND ic.course.id = :courseId")
+    void removeByInstructorIdAndCourseId(int instructorId, int courseId);
+
+    @Modifying
+    @Query(value = "INSERT INTO instructor_courses (instructor_id, course_id) VALUES (:instructorId, :courseId)", nativeQuery = true)
+    void assignCourseToInstructor(@Param("courseId") int courseId, @Param("instructorId") int instructorId);
 }

@@ -49,35 +49,24 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-dark table-borderless mb-0">
-                                        <caption style="caption-side: top; text-align: center; font-weight: bold; font-size: 18px; color: black;">List of The Courses You Teach</caption>
+                                        <caption style="caption-side: top; text-align: center; font-weight: bold; font-size: 18px; color: black;"> Available Courses To Teach From Your Department </caption>
+                                        <br>
                                         <thead>
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Course</th>
-                                            <th scope="col">Department</th>
-                                            <th scope="col">Course Details</th>
-                                            <th scope="col">Withdraw Teaching</th>
+                                            <th style="text-align: center; vertical-align: middle;">ID</th>
+                                            <th style="text-align: center; vertical-align: middle;">Course</th>
+                                            <th style="text-align: center; vertical-align: middle;">Department</th>
+                                            <th style="text-align: center; vertical-align: middle;">Teach</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="course : ${courseList}">
-                                            <td th:text="${course.id}"></td>
-                                            <td th:text="${course.courseName}"></td>
-                                            <td th:text="${course.department.departmentName}"></td>
-                                            <td>
-
-                                                <form th:action="@{/instructor/courses/{courseId}(courseId=${course.id})}" method="get">
-                                                    <input type="hidden" name="courseId" th:value="${course.id}" />
-                                                    <input type="hidden" name="instructorId" th:value="${instructor.id}" />
-                                                    <button type="submit" class="btn btn-primary">View Details</button>
-                                                </form>
-                                            </td>
-                                            <td>
-
-                                                <form th:action="@{/instructor/course/{courseId}/remove(courseId=${course.id})}" method="post" onsubmit="return confirm('Are you sure you want to withdraw from this course?');">
-                                                    <input type="hidden" name="courseId" th:value="${course.id}" />
-                                                    <input type="hidden" name="instructorId" th:value="${instructor.id}"/>
-                                                    <button type="submit" class="btn btn-danger">Withdraw</button>
+                                        <tr th:each="course : ${availableCourses}">
+                                            <td style="text-align: center; vertical-align: middle;" th:text="${course.id}"></td>
+                                            <td style="text-align: center; vertical-align: middle;" th:text="${course.courseName}"></td>
+                                            <td style="text-align: center; vertical-align: middle;" th:text="${course.department.departmentName}"></td>
+                                            <td class="text-center align-middle">
+                                                <form th:action="@{/instructor/available_courses/{courseId}/teach(courseId=${course.id})}" method="post">
+                                                    <button type="submit" class="btn btn-primary">Teach</button>
                                                 </form>
                                             </td>
                                         </tr>

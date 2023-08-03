@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -26,18 +26,18 @@
                         <li class="navbar-brand" style="font-weight: bold; color: white;">Welcome Instructor</li>
                     </ul>
                     <ul class="nav navbar-nav">
-                        <li><a href="instructor_courses"><span class="glyphicon glyphicon-menu-hamburger"></span> Courses</a></li>
-                        <li><a href="instructor_available_courses"><span class="glyphicon glyphicon-plus"></span> Teach New Course?</a></li>
+                        <li><a th:href="@{/instructor/courses}"><span class="glyphicon glyphicon-menu-hamburger"></span> Courses</a></li>
+                        <li><a th:href="@{/instructor/available_courses}"><span class="glyphicon glyphicon-plus"></span> Teach New Course?</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="instructor_profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                        <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                        <li><a th:href="@{/instructor/profile}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                        <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</nav>
 
 <section class="intro">
     <div class="bg-image h-100" style="background-color: #fff;">
@@ -69,7 +69,6 @@
                                             <td th:text="${details[0].lastName}"></td>
                                             <td th:text="${details[0].email}"></td>
                                             <td>
-
                                                 <form th:action="@{/instructor/course/{courseId}/edit_grade(courseId=${course_Id})}" method="post">
                                                     <input type="hidden" name="studentCourseId" th:value="${details[2]}">
                                                     <select name="grades" onchange="this.form.submit()">
@@ -91,7 +90,7 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <form th:action="@{/instructor/course/{courseId}/remove(courseId=${course_Id})}" method="post">
+                                                <form th:action="@{/instructor/course/{courseId}/{studentId}/remove(courseId=${course_Id},studentId=${details[0].id})}" method="post" onsubmit="return confirm('Are you sure you want to remove this student?');">
                                                     <input type="hidden" name="studentCourseId" th:value="${details[2]}">
                                                     <button type="submit" class="btn btn-danger">Remove</button>
                                                 </form>

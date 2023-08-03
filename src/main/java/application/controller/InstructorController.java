@@ -44,13 +44,36 @@ public class InstructorController {
         courseService.updateStudentCourseGradeById(studentCourseId, grade);
         return "redirect:/instructor/courses/" + courseId;
     }
-
     @PostMapping("/instructor/course/{courseId}/remove")
-    public String removeStudentFromCourse(@PathVariable int courseId, @RequestParam("studentCourseId") int studentCourseId) {
-        courseService.deleteStudentCourseById(studentCourseId);
-        return "redirect:/instructor/courses/" + courseId;
+    public String withdrawCourse(@PathVariable("courseId") int courseId, @RequestParam("instructorId") int instructorId) {
+        courseService.removeByInstructorIdAndCourseId(instructorId, courseId);
+        return "redirect:/instructor/courses";
     }
-
+    @PostMapping("/instructor/course/{courseId}/{studentId}/remove")
+    public String removeStudentCourse(@PathVariable("courseId") int courseId, @PathVariable("studentId") int studentId,
+                                      @RequestParam("studentCourseId") int studentCourseId) {
+        courseService.deleteStudentCourseById(studentCourseId);
+        return "redirect:/instructor/courses";
+    }
+    @GetMapping("/instructor/available_courses")
+    public String viewAvailableCoursesToTeach(Model model) {
+        Instructor instructor = getInstructorFromSession();
+        List<Course> availableCourses = courseService.getUnassignedCoursesFromSameDept(instructor.getId());
+        model.addAttribute("availableCourses", availableCourses);
+        return "instructor_available_courses";
+    }
+    @PostMapping("/instructor/available_courses/{courseId}/teach")
+    public String teachCourse(@PathVariable("courseId") int courseId) {
+        Instructor instructor = getInstructorFromSession();
+        courseService.assignCourseToInstructor(courseId, instructor.getId());
+        return "redirect:/instructor/courses";
+    }
+    @GetMapping("/instructor/profile")
+    public String viewProfile(Model model){
+        Instructor instructor = getInstructorFromSession();
+        model.addAttribute("instructor", instructor);
+        return "instructor_profile";
+    }
     private Instructor getInstructorFromSession() {
         HttpSession session = request.getSession();
         return (Instructor) session.getAttribute("instructor");
