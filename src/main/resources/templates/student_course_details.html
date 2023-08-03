@@ -1,0 +1,97 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Details</title>
+  <style>
+    .course-info {
+      background-color: #f9e9a5;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .instructor-info {
+      background-color: #b2f2bb;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .grade-info {
+      background-color: #b2ccff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .navbar-inverse {
+      background-color: #1E3859;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+      color: #EAEAEA;
+    }
+
+    .navbar-text.welcome-message {
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="navbar-collapse collapse" id="mobile_menu">
+          <ul class="nav navbar-nav">
+            <li class="navbar-brand" style="font-weight: bold; color: white;">Welcome Student</li>
+          </ul>
+          <ul class="nav navbar-nav">
+            <li><a th:href="@{/student/courses}"><span class="glyphicon glyphicon-menu-hamburger"></span> Courses </a></li>
+            <li><a th:href="@{/student/available_courses}"><span class="glyphicon glyphicon-plus"></span> Enroll New Course </a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/student/profile}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout <span></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4" th:if="${session.student != null}">
+  <h1>Course Details</h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="course-info">
+        <h2>Course Information</h2>
+        <p><strong>Course Name:</strong> <span th:text="${studentCourse.getCourse().getCourseName()}"></span></p>
+        <p><strong>Department:</strong> <span th:text="${studentCourse.course.department.departmentName}"></span></p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="instructor-info">
+        <h2>Instructor Information</h2>
+        <p><strong>Instructor Name:</strong> <span th:text="${studentCourse.instructor.firstName}"></span> <span th:text="${studentCourse.instructor.lastName}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${studentCourse.instructor.email}"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="grade-info">
+        <h2>Your Grade</h2>
+        <p><strong>Grade:</strong> <span th:text="${studentCourse.grade}"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

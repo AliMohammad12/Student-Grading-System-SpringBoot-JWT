@@ -1,0 +1,55 @@
+package application.service;
+
+import application.model.Course;
+import application.model.Instructor;
+import application.model.Student;
+import application.model.StudentCourse;
+import application.repository.CourseRepository;
+import application.repository.StudentRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class CourseService {
+    @Autowired
+    private CourseRepository courseRepository;
+
+    public List<Course> findCoursesByStudentID(int studentId){
+        return courseRepository.findCoursesByStudentID(studentId);
+    }
+    public StudentCourse findStudentCourseByStudentIdAndCourseId(int studentId, int courseId) {
+        return courseRepository.findStudentCourseByStudentIdAndCourseId(studentId, courseId);
+    }
+    @Transactional
+    public void deleteStudentCourseByStudentIdAndCourseId(int studentId, int courseId) {
+        courseRepository.deleteStudentCourseByStudentIdAndCourseId(studentId, courseId);
+    }
+    public List<Course> findCoursesNotEnrolledByStudentId(int studentId) {
+        return courseRepository.findCoursesNotEnrolledByStudentId(studentId);
+    }
+    @Transactional
+    public void enrollStudentInCourse(int courseId, int studentId, int instructorId) {
+        courseRepository.enrollStudentInCourse(courseId, studentId, instructorId);
+    }
+    public List<Course>findCoursesByInstructorId (int instructorId) {
+        return courseRepository.findCoursesByInstructorId(instructorId);
+    }
+    public List<Object[]> findStudentsAndMarksWithInstructorCourseIdByInstructorIdAndCourseId(int instructorId, int studentId) {
+        return courseRepository.findStudentsAndMarksWithInstructorCourseIdByInstructorIdAndCourseId(instructorId, studentId);
+    }
+    @Transactional
+    public void updateStudentCourseGradeById(int studentCourseId, String grade) {
+        courseRepository.updateStudentCourseGradeById(studentCourseId, grade);
+    }
+    @Transactional
+    public  void deleteStudentCourseById(int studentCourseId) {
+        courseRepository.deleteStudentCourseById(studentCourseId);
+    }
+}

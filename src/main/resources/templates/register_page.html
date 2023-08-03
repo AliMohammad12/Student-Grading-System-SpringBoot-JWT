@@ -1,0 +1,220 @@
+<html lang="en" xmlns:th = "https://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url("/images/registeration_background.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .h-custom {
+            height: 100vh;
+        }
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            }
+        }
+        .register-heading {
+            margin-bottom: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .shift-left-student {
+            position: relative;
+            left: -20px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1">
+                    <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="email">Email address</label>
+                            <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" />
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter password" />
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control-lg" placeholder="Confirm password" />
+                        </div>
+
+                        <h4 class="register-heading">What are you registering as?</h4>
+
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="instructorRadio" value="instructor" onchange="showHideFields()">
+                                    <label class="form-check-label" for="instructorRadio">
+                                        Instructor
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col shift-left-student">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="studentRadio" value="student" onchange="showHideFields()">
+                                    <label class="form-check-label" for="studentRadio">
+                                        Student
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="instructorFields" style="display: none;">
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="instructorFirstName">Instructor's First Name</label>
+                                <input type="text" id="instructorFirstName" name="instructorFirstName" class="form-control form-control-lg" placeholder="Enter instructor's first name" />
+                            </div>
+
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="instructorLastName">Instructor's Last Name</label>
+                                <input type="text" id="instructorLastName" name="instructorLastName" class="form-control form-control-lg" placeholder="Enter instructor's last name" />
+                            </div>
+
+                            <div class="form-outline mb-3">
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="instructorDepartment">Instructor's Department</label>
+                                    <select id="instructorDepartment" name="instructorDepartment" class="form-control form-control-lg">
+                                        <option th:each="department : ${departmentList}" th:value="${department.id}" th:text="${department.departmentName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="studentFields" style="display: none;">
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="studentFirstName">Student's First Name</label>
+                                <input type="text" id="studentFirstName" name="studentFirstName" class="form-control form-control-lg" placeholder="Enter student's first name" />
+                            </div>
+
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="studentLastName">Student's Last Name</label>
+                                <input type="text" id="studentLastName" name="studentLastName" class="form-control form-control-lg" placeholder="Enter student's last name" />
+                            </div>
+
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="studentMajor">Student's Major</label>
+                                <input type="text" id="studentMajor" name="studentMajor" class="form-control form-control-lg" placeholder="Enter student's major" />
+                            </div>
+
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="studentAcademicYear">Student's Academic Year</label>
+                                <input type="number" id="studentAcademicYear" name="studentAcademicYear" class="form-control form-control-lg" placeholder="Enter student's academic year (1 to 5)" />
+                            </div>
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
+                        </div>
+                  </form>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <p class="small fw-bold mt-2 pt-1 mb-0" style="display: inline-block; margin-left: 10px;">
+                            Already have an account? <a th:href="@{/login}" class="link-danger">Login</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showHideFields() {
+            var instructorFields = document.getElementById("instructorFields");
+            var studentFields = document.getElementById("studentFields");
+            var instructorRadio = document.getElementById("instructorRadio");
+            var studentRadio = document.getElementById("studentRadio");
+
+            if (instructorRadio.checked) {
+                instructorFields.style.display = "block";
+                studentFields.style.display = "none";
+            } else if (studentRadio.checked) {
+                instructorFields.style.display = "none";
+                studentFields.style.display = "block";
+            }
+        }
+
+        function validateForm() {
+            var email = document.getElementById("email").value.trim();
+            var password = document.getElementById("password").value.trim();
+            var confirmPassword = document.getElementById("confirmPassword").value.trim();
+            var role = document.querySelector('input[name="role"]:checked');
+
+            if (!role) {
+                alert("Please select a role (Instructor or Student).");
+                return false;
+            }
+
+            if (password === "") {
+                alert("Password cannot be empty.");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            if (role.value === "instructor") {
+                var instructorFirstName = document.getElementById("instructorFirstName").value.trim();
+                var instructorLastName = document.getElementById("instructorLastName").value.trim();
+                var instructorDepartment = document.getElementById("instructorDepartment").value.trim();
+
+                if (instructorFirstName === "" || instructorLastName === "" || instructorDepartment === "") {
+                    alert("Please fill in all Instructor fields.");
+                    return false;
+                }
+            } else if (role.value === "student") {
+                var studentFirstName = document.getElementById("studentFirstName").value.trim();
+                var studentLastName = document.getElementById("studentLastName").value.trim();
+                var studentMajor = document.getElementById("studentMajor").value.trim();
+                var studentAcademicYear = document.getElementById("studentAcademicYear").value.trim();
+
+                if (studentFirstName === "" || studentLastName === "" || studentMajor === "" || studentAcademicYear === "") {
+                    alert("Please fill in all Student fields.");
+                    return false;
+                }
+
+                if (!Number.isInteger(+studentAcademicYear) || +studentAcademicYear < 1 || +studentAcademicYear > 5) {
+                    alert("Academic year must be an integer from 1 to 5.");
+                    return false;
+                }
+            }
+
+            if (email === "") {
+                alert("Email address cannot be empty.");
+                return false;
+            }
+
+            return true;
+        }
+
+        document.getElementById("instructorRadio").addEventListener("change", showHideFields);
+        document.getElementById("studentRadio").addEventListener("change", showHideFields);
+    </script>
+</body>
+</html>
