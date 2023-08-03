@@ -30,14 +30,4 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "instructor_id")
     )
     private List<Instructor> instructors;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "instructor_courses",
-//            joinColumns = @JoinColumn(name = "course_id"),
-//            inverseJoinColumns = @JoinColumn(name = "instructor_id")
-//    )
-//    private List<Instructor> instructors;
-//    @ManyToMany(mappedBy = "courses")
-//    private List<Student> students;
 }

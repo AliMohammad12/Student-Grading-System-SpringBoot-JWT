@@ -12,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class RegisterController {
@@ -29,7 +27,6 @@ public class RegisterController {
     private StudentService studentService;
     @Autowired
     private InstructorService instructorService;
-
     @GetMapping("/register")
     public String viewRegistrationPage(Model model) {
         List<Department> departmentList = departmentService.getAllDepartments();

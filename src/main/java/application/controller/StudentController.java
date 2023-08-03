@@ -69,7 +69,6 @@ public class StudentController {
         courseService.deleteStudentCourseByStudentIdAndCourseId(student.getId(), courseId);
         return "redirect:/student/courses";
     }
-
     @PostMapping("/student/available_courses/enroll/{courseId}")
     public String enrollInCourse(@RequestParam("instructorId") int instructorId, @PathVariable String courseId) {
         Student student = getStudentFromSession();

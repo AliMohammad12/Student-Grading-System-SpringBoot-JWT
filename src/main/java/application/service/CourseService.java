@@ -65,4 +65,13 @@ public class CourseService {
     public void assignCourseToInstructor(int courseId, int instructorId) {
         courseRepository.assignCourseToInstructor(courseId, instructorId);
     }
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    }
+    public void deleteCourseById(int courseId) {
+        courseRepository.deleteById(courseId);
+    }
+    public void createCourse(Course course) {
+        courseRepository.save(course);
+    }
 }

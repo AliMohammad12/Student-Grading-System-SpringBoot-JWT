@@ -39,7 +39,7 @@ public class LoginController {
         String role = account.getRole();
         if (role.equals("ADMIN")) {
             session.setAttribute("admin", account);
-            return "redirect:/admin";
+            return "redirect:/admin/dashboard";
         } else if (role.equals("student")) {
             Student student = studentService.findByAccountId(account.getId());
             session.setAttribute("student", student);

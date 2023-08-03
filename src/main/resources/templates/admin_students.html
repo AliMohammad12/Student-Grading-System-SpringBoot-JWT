@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>All Students</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/admin/dashboard}">Admin Dashboard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="intro mt-4" th:if="${session.admin != null}">
+  <div class="bg-image h-100" style="background-color: #fff;">
+    <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0,0,0,.25);">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card bg-dark text-white shadow-2-strong">
+              <div class="card-body">
+                <h5 class="card-title text-center">All Students</h5>
+                <div class="table-responsive">
+                  <table class="table table-dark table-borderless mb-0">
+                    <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Major</th>
+                      <th scope="col">Academic Year</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student : ${studentList}">
+                      <td th:text="${student.id}"></td>
+                      <td th:text="${student.firstName}"></td>
+                      <td th:text="${student.lastName}"></td>
+                      <td th:text="${student.email}"></td>
+                      <td th:text="${student.major}"></td>
+                      <td th:text="${student.academicYear}"></td>
+                      <td>
+                        <form th:action="@{/admin/students/{studentId}/delete(studentId=${student.id})}" method="post">
+                          <input type="hidden" name="studentId" th:value="${student.id}">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

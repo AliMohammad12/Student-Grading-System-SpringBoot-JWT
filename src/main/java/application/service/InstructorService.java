@@ -21,5 +21,10 @@ public class InstructorService {
     public List<Instructor> findByCourseId(int courseId) {
         return instructorRepository.findByCourseId(courseId);
     }
-
+    public List<Instructor> getAllInstructors() {
+        return instructorRepository.findAll();
+    }
+    public void deleteInstructor(int instructorId) {
+        instructorRepository.deleteById(instructorId);
+    }
 }

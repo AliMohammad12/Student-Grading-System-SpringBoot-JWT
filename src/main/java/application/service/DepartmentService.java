@@ -19,4 +19,10 @@ public class DepartmentService {
         Optional<Department> departmentOptional = departmentRepository.findById(departmentId);
         return departmentOptional.orElse(null);
     }
+    public void deleteDepartment(int departmentId) {
+        departmentRepository.deleteById(departmentId);
+    }
+    public void createDepartment(Department department) {
+        departmentRepository.save(department);
+    }
 }

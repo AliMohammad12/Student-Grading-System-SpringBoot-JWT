@@ -6,6 +6,8 @@ import application.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService {
     @Autowired
@@ -16,5 +18,11 @@ public class StudentService {
     }
     public Student findByAccountId(int accountId) {
         return studentRepository.findByAccountId(accountId);
+    }
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+    public void deleteStudent(int id) {
+        studentRepository.deleteById(id);
     }
 }

@@ -29,7 +29,7 @@ public class Student {
     @Column(name = "major")
     private String major;
 
-    @Column(name = "academic_year") // Match with the actual column name in the database
+    @Column(name = "academic_year")
     private int academicYear;
 
     @ManyToOne
