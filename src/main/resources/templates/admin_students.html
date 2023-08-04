@@ -15,14 +15,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/logout}">Logout</a>
+          <form action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" class="logout-button">Logout</button>
+          </form>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<section class="intro mt-4" th:if="${session.admin != null}">
+<section class="intro mt-4">
   <div class="bg-image h-100" style="background-color: #fff;">
     <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0,0,0,.25);">
       <div class="container">
@@ -53,8 +55,8 @@
                       <td th:text="${student.major}"></td>
                       <td th:text="${student.academicYear}"></td>
                       <td>
-                        <form th:action="@{/admin/students/{studentId}/delete(studentId=${student.id})}" method="post">
-                          <input type="hidden" name="studentId" th:value="${student.id}">
+                        <form th:action="@{/admin/{accountId}/delete(accountId=${student.account.id})}" method="post">
+                          <input type="hidden" name="accountId" th:value="${student.account.id}">
                           <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                       </td>

@@ -9,6 +9,7 @@ import application.service.InstructorService;
 import application.service.StudentService;
 import application.util.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class RegisterController {
     public String viewRegistrationPage(Model model) {
         List<Department> departmentList = departmentService.getAllDepartments();
         model.addAttribute("departmentList", departmentList);
+
         return "register_page";
     }
     @PostMapping("/register")

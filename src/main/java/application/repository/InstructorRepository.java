@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface InstructorRepository extends JpaRepository<Instructor, Integer> {
     Instructor findByAccountId(int accountId);
+    Instructor findByEmail(String email);
     @Query("SELECT i FROM Instructor i INNER JOIN i.instructorCourses ic WHERE ic.course.id = :courseId")
     List<Instructor> findByCourseId(@Param("courseId") int courseId);
+
 }

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <style>
     .navbar-inverse {
@@ -14,6 +17,14 @@
     .navbar-text.welcome-message {
       color: white;
       font-weight: bold;
+    }
+
+        .navbar-form.navbar-right {
+           padding: 10px 15px;
+         }
+
+    .navbar-right .btn-link {
+      color: #FFFFFF;
     }
   </style>
 </head>
@@ -32,17 +43,24 @@
             <li><a th:href="@{/student/available_courses}"><span class="glyphicon glyphicon-plus"></span> Enroll New Course </a></li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{/student/profile}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout <span></span></a></li>
-          </ul>
+          <form class="navbar-form navbar-right" th:action="@{/logout}" method="post" id="logoutForm">
+            <div class="form-group">
+              <a href="#" class="btn btn-link" th:href="@{/student/profile}">
+                <span class="glyphicon glyphicon-user"></span> Profile
+              </a>
+              <button type="submit" class="btn btn-link">
+                <span class="glyphicon glyphicon-log-in"></span> Logout
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-  <section class="intro">
+
+<section class="intro">
     <div class="bg-image h-100" style="background-color: #fff;">
       <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0,0,0,.25);">
         <div class="container">
@@ -90,6 +108,5 @@
       </div>
     </div>
   </section>
-</div>
 </body>
 </html>

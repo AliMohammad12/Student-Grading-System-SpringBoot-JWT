@@ -4,9 +4,11 @@ import application.model.Course;
 import application.model.Instructor;
 import application.model.Student;
 import application.service.CourseService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import application.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,10 @@ public class InstructorController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private HttpServletRequest request;
+    private InstructorService instructorService;
     @GetMapping("/instructor/courses")
     public String viewInstructorCourses(Model model) {
-        Instructor instructor = getInstructorFromSession();
+        Instructor instructor = getCurrentInstructor();
         List<Course> courseList = courseService.findCoursesByInstructorId(instructor.getId());
         model.addAttribute("instructor", instructor);
         model.addAttribute("courseList", courseList);
@@ -32,7 +34,7 @@ public class InstructorController {
     }
     @GetMapping("/instructor/courses/{courseId}")
     public String viewCourseDetails(@PathVariable int courseId, Model model) {
-        Instructor instructor = getInstructorFromSession();
+        Instructor instructor = getCurrentInstructor();
         List<Object[]> courseDetails = courseService.findStudentsAndMarksWithInstructorCourseIdByInstructorIdAndCourseId(instructor.getId(), courseId);
         model.addAttribute("courseDetails", courseDetails);
         model.addAttribute("course_Id", courseId);
@@ -46,7 +48,8 @@ public class InstructorController {
     }
     @PostMapping("/instructor/course/{courseId}/remove")
     public String withdrawCourse(@PathVariable("courseId") int courseId, @RequestParam("instructorId") int instructorId) {
-        courseService.removeByInstructorIdAndCourseId(instructorId, courseId);
+        courseService.removeInstructorCourseByInstructorIdAndCourseId(instructorId, courseId);
+       // courseService.removeStudentCourseByInstructorIdAndCourseId(instructorId, courseId);
         return "redirect:/instructor/courses";
     }
     @PostMapping("/instructor/course/{courseId}/{studentId}/remove")
@@ -57,25 +60,26 @@ public class InstructorController {
     }
     @GetMapping("/instructor/available_courses")
     public String viewAvailableCoursesToTeach(Model model) {
-        Instructor instructor = getInstructorFromSession();
+        Instructor instructor = getCurrentInstructor();
         List<Course> availableCourses = courseService.getUnassignedCoursesFromSameDept(instructor.getId());
         model.addAttribute("availableCourses", availableCourses);
         return "instructor_available_courses";
     }
     @PostMapping("/instructor/available_courses/{courseId}/teach")
     public String teachCourse(@PathVariable("courseId") int courseId) {
-        Instructor instructor = getInstructorFromSession();
+        Instructor instructor = getCurrentInstructor();
         courseService.assignCourseToInstructor(courseId, instructor.getId());
         return "redirect:/instructor/courses";
     }
     @GetMapping("/instructor/profile")
     public String viewProfile(Model model){
-        Instructor instructor = getInstructorFromSession();
+        Instructor instructor = getCurrentInstructor();
         model.addAttribute("instructor", instructor);
         return "instructor_profile";
     }
-    private Instructor getInstructorFromSession() {
-        HttpSession session = request.getSession();
-        return (Instructor) session.getAttribute("instructor");
+    private Instructor getCurrentInstructor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails account = (UserDetails) authentication.getPrincipal();
+        return instructorService.findByEmail(account.getUsername());
     }
 }

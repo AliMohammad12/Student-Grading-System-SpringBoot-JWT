@@ -1,6 +1,7 @@
 package application.service;
 import application.model.Instructor;
 import application.repository.InstructorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,7 +25,7 @@ public class InstructorService {
     public List<Instructor> getAllInstructors() {
         return instructorRepository.findAll();
     }
-    public void deleteInstructor(int instructorId) {
-        instructorRepository.deleteById(instructorId);
+    public Instructor findByEmail(String email) {
+        return instructorRepository.findByEmail(email);
     }
 }

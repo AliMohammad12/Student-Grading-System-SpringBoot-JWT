@@ -1,15 +1,12 @@
 package application.controller;
 
-import application.model.Course;
-import application.model.Department;
-import application.model.Instructor;
-import application.model.Student;
-import application.service.CourseService;
-import application.service.DepartmentService;
-import application.service.InstructorService;
-import application.service.StudentService;
+import application.model.*;
+import application.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +23,8 @@ public class AdminController {
     private DepartmentService departmentService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private AccountService accountService;
     @Autowired
     private InstructorService instructorService;
     @GetMapping("/admin/dashboard")
@@ -88,20 +87,15 @@ public class AdminController {
         request.setAttribute("studentList", studentList);
         return "admin_students";
     }
-    @PostMapping("/admin/students/{studentId}/delete")
-    public String deleteStudent(@PathVariable("studentId") int studentId) {
-        studentService.deleteStudent(studentId);
-        return "redirect:/admin/students";
-    }
     @GetMapping("/admin/instructors")
     public String viewInstructors(Model model) {
         List<Instructor> instructorList = instructorService.getAllInstructors();
         request.setAttribute("instructorList", instructorList);
         return "admin_instructors";
     }
-    @PostMapping("/admin/instructors/{instructorId}/delete")
-    public String deleteInstructor(@PathVariable("instructorId") int instructorId) {
-        instructorService.deleteInstructor(instructorId);
-        return "redirect:/admin/instructors";
+    @PostMapping("/admin/{accountId}/delete")
+    public String deleteUser(@PathVariable("accountId") int accountId) {
+        accountService.deleteById(accountId);
+        return "redirect:/admin/dashboard";
     }
 }

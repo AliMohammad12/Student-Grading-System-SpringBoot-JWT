@@ -58,8 +58,8 @@ public class CourseService {
         return courseRepository.getUnassignedCoursesFromSameDept(instructorId);
     }
     @Transactional
-    public void removeByInstructorIdAndCourseId(int instructorId, int courseId) {
-        courseRepository.removeByInstructorIdAndCourseId(instructorId, courseId);
+    public void removeInstructorCourseByInstructorIdAndCourseId(int instructorId, int courseId) {
+        courseRepository.removeInstructorCourseByInstructorIdAndCourseId(instructorId, courseId);
     }
     @Transactional
     public void assignCourseToInstructor(int courseId, int instructorId) {

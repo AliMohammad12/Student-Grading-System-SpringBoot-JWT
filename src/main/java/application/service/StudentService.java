@@ -3,6 +3,7 @@ package application.service;
 import application.model.Instructor;
 import application.model.Student;
 import application.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class StudentService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
-    public void deleteStudent(int id) {
-        studentRepository.deleteById(id);
+    public Student findByEmail(String email) {
+        return studentRepository.findByEmail(email);
     }
 }

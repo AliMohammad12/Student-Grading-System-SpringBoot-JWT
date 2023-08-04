@@ -55,7 +55,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Modifying
     @Query("DELETE FROM InstructorCourse ic WHERE ic.instructor.id = :instructorId AND ic.course.id = :courseId")
-    void removeByInstructorIdAndCourseId(int instructorId, int courseId);
+    void removeInstructorCourseByInstructorIdAndCourseId(int instructorId, int courseId);
 
     @Modifying
     @Query(value = "INSERT INTO instructor_courses (instructor_id, course_id) VALUES (:instructorId, :courseId)", nativeQuery = true)
