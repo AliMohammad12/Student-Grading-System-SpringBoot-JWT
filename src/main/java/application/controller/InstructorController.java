@@ -20,10 +20,13 @@ import java.util.List;
 
 @Controller
 public class InstructorController {
-    @Autowired
     private CourseService courseService;
-    @Autowired
     private InstructorService instructorService;
+    @Autowired
+    public InstructorController(CourseService courseService, InstructorService instructorService) {
+        this.courseService = courseService;
+        this.instructorService = instructorService;
+    }
     @GetMapping("/instructor/courses")
     public String viewInstructorCourses(Model model) {
         Instructor instructor = getCurrentInstructor();
@@ -49,7 +52,7 @@ public class InstructorController {
     @PostMapping("/instructor/course/{courseId}/remove")
     public String withdrawCourse(@PathVariable("courseId") int courseId, @RequestParam("instructorId") int instructorId) {
         courseService.removeInstructorCourseByInstructorIdAndCourseId(instructorId, courseId);
-       // courseService.removeStudentCourseByInstructorIdAndCourseId(instructorId, courseId);
+        courseService.removeStudentCourseByInstructorIdAndCourseId(instructorId, courseId);
         return "redirect:/instructor/courses";
     }
     @PostMapping("/instructor/course/{courseId}/{studentId}/remove")

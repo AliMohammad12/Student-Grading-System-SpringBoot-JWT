@@ -62,6 +62,10 @@ public class CourseService {
         courseRepository.removeInstructorCourseByInstructorIdAndCourseId(instructorId, courseId);
     }
     @Transactional
+    public void removeStudentCourseByInstructorIdAndCourseId(int instructorId, int courseId) {
+        courseRepository.removeStudentCourseByInstructorIdAndCourseId(instructorId, courseId);
+    }
+    @Transactional
     public void assignCourseToInstructor(int courseId, int instructorId) {
         courseRepository.assignCourseToInstructor(courseId, instructorId);
     }

@@ -9,30 +9,30 @@ import application.service.InstructorService;
 import application.service.StudentService;
 import application.util.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
-
 @Controller
 public class RegisterController {
-    @Autowired
     private DepartmentService departmentService;
-    @Autowired
     private AccountService accountService;
-    @Autowired
     private StudentService studentService;
-    @Autowired
     private InstructorService instructorService;
+    @Autowired
+    public RegisterController(DepartmentService departmentService, AccountService accountService,
+                              StudentService studentService, InstructorService instructorService) {
+        this.departmentService = departmentService;
+        this.accountService = accountService;
+        this.studentService = studentService;
+        this.instructorService = instructorService;
+    }
     @GetMapping("/register")
     public String viewRegistrationPage(Model model) {
         List<Department> departmentList = departmentService.getAllDepartments();
         model.addAttribute("departmentList", departmentList);
-
         return "register_page";
     }
     @PostMapping("/register")

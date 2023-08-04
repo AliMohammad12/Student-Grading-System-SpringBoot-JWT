@@ -18,12 +18,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-    @Autowired
     private AccountService accountService;
-    @Autowired
     private StudentService studentService;
-    @Autowired
     private InstructorService instructorService;
+    @Autowired
+    public LoginController(AccountService accountService, StudentService studentService,
+                           InstructorService instructorService) {
+        this.accountService = accountService;
+        this.studentService = studentService;
+        this.instructorService = instructorService;
+    }
+
     @GetMapping("/login")
     public String viewLoginPage(Model model) {
         return "login_page";

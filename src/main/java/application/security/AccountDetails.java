@@ -18,7 +18,6 @@ public class AccountDetails implements UserDetails {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(account.getRole());
         return Arrays.asList(authority);
     }
-
     @Override
     public String getPassword() {
         return account.getHashedPassword();

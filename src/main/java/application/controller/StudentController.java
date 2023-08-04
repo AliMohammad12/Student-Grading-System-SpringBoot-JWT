@@ -20,12 +20,16 @@ import java.util.List;
 
 @Controller
 public class StudentController {
-    @Autowired
     private CourseService courseService;
-    @Autowired
     private InstructorService instructorService;
-    @Autowired
     private StudentService studentService;
+    @Autowired
+    public StudentController(CourseService courseService, InstructorService instructorService, StudentService studentService) {
+        this.courseService = courseService;
+        this.instructorService = instructorService;
+        this.studentService = studentService;
+    }
+
     @GetMapping("/student/courses")
     public String viewStudentCourses(Model model) {
         Student student = getCurrentStudent();

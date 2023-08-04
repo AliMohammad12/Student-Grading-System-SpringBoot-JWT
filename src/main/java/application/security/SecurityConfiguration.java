@@ -35,16 +35,19 @@ class SecurityConfiguration {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/static/images/**");
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(configurer ->
-                        configurer.requestMatchers("/register").permitAll()
+                        configurer.requestMatchers("/register", "/static/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/login")
+                        .loginPage("/login")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .successHandler(customAuthenticationSuccessHandler())
                                 .permitAll()

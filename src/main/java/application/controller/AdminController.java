@@ -4,9 +4,6 @@ import application.model.*;
 import application.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +12,23 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-    @Autowired
     private HttpServletRequest request;
-    @Autowired
     private CourseService courseService;
-    @Autowired
     private DepartmentService departmentService;
-    @Autowired
     private StudentService studentService;
-    @Autowired
     private AccountService accountService;
-    @Autowired
     private InstructorService instructorService;
+    @Autowired
+    public AdminController(HttpServletRequest request, CourseService courseService, DepartmentService departmentService,
+                           StudentService studentService, AccountService accountService, InstructorService instructorService) {
+        this.request = request;
+        this.courseService = courseService;
+        this.departmentService = departmentService;
+        this.studentService = studentService;
+        this.accountService = accountService;
+        this.instructorService = instructorService;
+    }
+
     @GetMapping("/admin/dashboard")
     public String viewAdminDashboard() {
         return "admin_dashboard";
