@@ -2,18 +2,20 @@ package application.service;
 
 import application.model.Account;
 import application.repository.AccountRepository;
-import application.repository.StudentRepository;
+import application.security.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
-    public Account createAccount(Account account) {
+    public AccountDetails createAccount(AccountDetails account) {
         return accountRepository.save(account);
     }
-    public Account findByEmail(String email) {
+    public AccountDetails findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
     public void deleteById(int id) {

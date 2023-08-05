@@ -1,6 +1,8 @@
 package application.security;
 
 import application.model.Account;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,24 +10,42 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@Table(name = "account")
+@ToString
+@Builder
+@Data
 public class AccountDetails implements UserDetails {
-    private Account account;
-    public AccountDetails(Account account) {
-        this.account = account;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "hashed_password")
+    private String hashedPassword;
+
+    @Column(name = "role")
+    private String role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(account.getRole());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
         return Arrays.asList(authority);
     }
     @Override
     public String getPassword() {
-        return account.getHashedPassword();
+        return getHashedPassword();
     }
 
     @Override
     public String getUsername() {
-        return account.getEmail();
+        return getEmail();
     }
 
     @Override

@@ -76,6 +76,7 @@ public class InstructorController {
     }
     @GetMapping("/instructor/profile")
     public String viewProfile(Model model){
+        System.out.println("Hey");
         Instructor instructor = getCurrentInstructor();
         model.addAttribute("instructor", instructor);
         return "instructor_profile";

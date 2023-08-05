@@ -1,8 +1,11 @@
 package application.repository;
 
 import application.model.Account;
+import application.security.AccountDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccountRepository extends JpaRepository<Account, Integer> {
-    Account findByEmail(String email);
+import java.util.Optional;
+
+public interface AccountRepository extends JpaRepository<AccountDetails, Integer> {
+    AccountDetails findByEmail(String email);
 }

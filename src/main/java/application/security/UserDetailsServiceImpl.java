@@ -1,6 +1,7 @@
 package application.security;
 
 import application.model.Account;
+import application.repository.AccountRepository;
 import application.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private AccountService accountService;
+    private AccountRepository accountRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountService.findByEmail(username);
-        if (account == null) {
+        AccountDetails accountDetails = accountRepository.findByEmail(username);
+        if (accountDetails == null) {
             throw new UsernameNotFoundException("Could not find user");
         }
-        return new AccountDetails(account);
+        return accountDetails;
     }
 }

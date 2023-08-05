@@ -45,7 +45,7 @@
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1">
-                    <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
+                    <form id="registerForm" th:action="@{/api/v1/auth/register}" method="POST" onsubmit="return validateForm()">
 
                         <div class="form-outline mb-4">
                             <label class="form-label" for="email">Email address</label>
@@ -142,7 +142,45 @@
         </div>
     </section>
 
+    <script th:inline="javascript">
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var formData = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                instructorRadio:  document.getElementById("instructorRadio").value,
+
+                instructorFirstName:  document.getElementById("instructorFirstName").value,
+                instructorLastName:  document.getElementById("instructorLastName").value,
+                instructorDepartment:  document.getElementById("instructorDepartment").value,
+
+                studentRadio: document.getElementById("studentRadio").value,
+                studentFirstName:  document.getElementById("studentFirstName").value,
+                studentLastName:  document.getElementById("studentLastName").value,
+                studentAcademicYear:  document.getElementById("studentAcademicYear").value,
+                studentMajor:  document.getElementById("studentMajor").value
+            };
+
+            fetch('/api/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+
     <script>
+
         function showHideFields() {
             var instructorFields = document.getElementById("instructorFields");
             var studentFields = document.getElementById("studentFields");

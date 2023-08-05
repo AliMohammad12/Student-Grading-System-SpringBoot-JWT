@@ -1,5 +1,6 @@
 package application.model;
 
+import application.security.AccountDetails;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,7 +34,7 @@ public class Instructor {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private AccountDetails account;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InstructorCourse> instructorCourses = new ArrayList<>();

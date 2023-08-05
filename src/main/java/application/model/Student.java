@@ -1,5 +1,6 @@
 package application.model;
 
+import application.security.AccountDetails;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +33,5 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private AccountDetails account;
 }
